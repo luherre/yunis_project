@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yunisdeployment  # Nombre
+  labels:
+    app: yunis  # Etiqueta 
+spec:
+  replicas: 2  # Número de réplicas
+  selector:
+    matchLabels:
+      app: yunis  # Etiqueta utilizada para seleccionar los pods
+  template:
+    metadata:
+      labels:
+        app: yunis  # Etiqueta que se aplicará a los pods
+    spec:
+      containers:
+      - name: yuniscontainer  # Nombre del contenedor
+        image: public.ecr.aws/o3t8e5x2/yunisweb1  # URI de la imagen del contenedor en ECR
+        ports:
+        - containerPort: 80  # Puerto expuesto en el contenedor
+        resources:
+          limits:
+            memory: "512Mi"  # Límite máximo de memoria
+            cpu: "500m"  # Límite máximo de CPU
+          requests:
+            memory: "256Mi"  # Solicitud mínima de memoria
+            cpu: "250m"  # Solicitud mínima de CPU

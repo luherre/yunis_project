@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: yuniservice  # Nombre del servicio
+  labels:
+    app: yunis  # Etiqueta que identifica la aplicación
+spec:
+  type: LoadBalancer  # Tipo de servicio para exponerlo públicamente
+  ports:
+  - port: 80  # Puerto externo que será expuesto
+    targetPort: 80  # Puerto interno en el contenedor
+    protocol: TCP  # Protocolo utilizado
+  selector:
+    app: yunis  # Selector para identificar los pods a los que se redirigirá el tráfico

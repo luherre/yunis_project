@@ -1,0 +1,85 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: yunisgamer
+  region: us-east-2
+  version: "1.30"
+
+availabilityZones:
+- us-east-2a
+- us-east-2b
+
+cloudWatch:
+  clusterLogging: {}
+
+iam:
+  withOIDC: false
+  vpcResourceControllerPolicy: true
+
+accessConfig:
+  authenticationMode: API_AND_CONFIG_MAP
+
+addonsConfig: {}
+
+kubernetesNetworkConfig:
+  ipFamily: IPv4
+
+managedNodeGroups:
+- name: nodoyunis
+  amiFamily: AmazonLinux2
+  desiredCapacity: 2
+  #Escalabilidad de nodos:
+  minSize: 2 #tamaño minimo
+  maxSize: 2 #tamaño maximo
+  instanceSelector: {}
+  instanceType: t3.micro
+  releaseVersion: ""
+  privateNetworking: false
+  disableIMDSv1: true
+  disablePodIMDS: false
+  volumeType: gp3
+  volumeSize: 20
+  volumeIOPS: 3000
+  volumeThroughput: 125
+  ssh:
+    allow: false
+    publicKeyPath: ""
+  securityGroups:
+    withLocal: null
+    withShared: null
+  labels:
+    alpha.eksctl.io/cluster-name: yunisgamer
+    alpha.eksctl.io/nodegroup-name: nodoyunis
+  tags:
+    alpha.eksctl.io/nodegroup-name: nodoyunis
+    alpha.eksctl.io/nodegroup-type: managed
+  iam:
+    withAddonPolicies:
+      albIngress: false
+      appMesh: false
+      appMeshPreview: false
+      autoScaler: false
+      awsLoadBalancerController: false
+      certManager: false
+      cloudWatch: false
+      ebs: false
+      efs: false
+      externalDNS: false
+      fsx: false
+      imageBuilder: false
+      xRay: false
+  
+vpc:
+  autoAllocateIPv6: false
+  cidr: 192.168.0.0/16
+  clusterEndpoints:
+    privateAccess: false
+    publicAccess: true
+  manageSharedNodeSecurityGroupRules: true
+  nat:
+    gateway: Single
+  
+privateCluster:
+  enabled: false
+  skipEndpointCreation: false
